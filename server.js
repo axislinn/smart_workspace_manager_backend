@@ -1,14 +1,29 @@
-const express = require('express');
-const app = express();
+import express from 'express';
+import cors from 'cors';
+import connectToMongoDB from './db_connection/mongoConnect.js';
+import adminRoutes from './route/users/admin_route.js';
+import employeeRoutes from './route/users/employee_route.js';
 
-// Middleware to parse JSON
+const app = express();
+const PORT = process.env.PORT;
+
+// Middleware
+app.use(cors());
 app.use(express.json());
 
-// Basic route
+// Connect to MongoDB
+connectToMongoDB();
+
+// Routes
+app.use('/api/admin', adminRoutes);
+app.use('/api/employee', employeeRoutes);
+
+// Sample Route
 app.get('/', (req, res) => {
-  res.send('Hello, Node.js Backend!');
+  res.send('Node.js API is running...');
 });
 
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+// Start the Server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
