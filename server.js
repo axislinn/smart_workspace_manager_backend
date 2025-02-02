@@ -1,11 +1,14 @@
 import express from 'express';
 import cors from 'cors';
+import dotenv from 'dotenv';
 import connectToMongoDB from './db_connection/mongoConnect.js';
 import adminRoutes from './route/users/admin_route.js';
 import employeeRoutes from './route/users/employee_route.js';
 
+dotenv.config();
+
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
