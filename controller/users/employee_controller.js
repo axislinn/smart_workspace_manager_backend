@@ -18,12 +18,8 @@ export const signup = async (req, res) => {
       }
   
       // Create new employee (password hashing will be handled in the schema automatically)
-      const newEmployee = new employeeModel({
-        name,
-        email,
-        password, // Don't hash the password here, let the schema handle it
-      });
-  
+      const newEmployee = new employeeModel({name,email,password}); // Don't hash the password here, let the schema handle it
+
       await newEmployee.save();
   
       // Generate JWT
