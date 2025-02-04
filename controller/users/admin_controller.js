@@ -5,10 +5,15 @@ import bcrypt from "bcrypt";
 // Sign Up Controller
 export const signup = async (req, res) => {
     try {
-        const { name, email, password, phoneNumber } = req.body;
+        const { name, email, password, phoneNumber, role } = req.body;
 
-        if (!name || !email || !password || !phoneNumber) {
+        if (!name || !email || !password || !phoneNumber || !role) {
             return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        // Validate role
+        if (role !== 'admin') {
+            return res.status(400).json({ message: 'Invalid role. Must be "admin"' });
         }
 
         // Check for existing admin
@@ -21,7 +26,7 @@ export const signup = async (req, res) => {
             email,
             password,
             phoneNumber,
-            role: 'admin'
+            role
         });
         await newAdmin.save();
 
